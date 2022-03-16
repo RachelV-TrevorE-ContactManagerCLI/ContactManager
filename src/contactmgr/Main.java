@@ -4,13 +4,14 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 import static java.nio.file.Files.readAllLines;
 
 public class Main {
-    private static List<String> contactList;
+    private static List<String> contactList = new ArrayList<>();
     private final Input testing = new Input();
     private static final Input menuSelector = new Input();
     private static int queryChoice;
@@ -113,20 +114,21 @@ Contact latestContact;
 //        System.out.println(newContact.getPhoneNumber());
 //        System.out.println(newContact.);
 
-
-        setNewContactToContactList(newContact);
+            String demoContact = nCEM + " " + nCFN + " | " + nCLN + " | " + nCPN + "   |";
+        setNewContactToContactList(demoContact);
 
 
          //// call setFirstName, setLastName, set phoneNumber
          //// then append list with new object
     }
 
-    public static void setNewContactToContactList(Contact newContact){
+    public static void setNewContactToContactList(String newContact){
         //// push new contact created above to list
 
         contactList.add(contactList.size(), String.valueOf(newContact));
         System.out.println("new contact added to list");
-        System.out.println(contactList);
+//        System.out.println(contactList);
+        printContactList();
     }
 
     public static void queryContactsByName(){
