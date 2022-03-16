@@ -35,23 +35,6 @@ public class Input {
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     public Scanner getPromptIput() {
         return promptInput;
     }
@@ -59,9 +42,6 @@ public class Input {
     public void setPromptIput(Scanner promptIput) {
         this.promptInput = promptIput;
     }
-
-
-
 
 
 }/// END OF CLASS
