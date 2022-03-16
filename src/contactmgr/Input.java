@@ -14,7 +14,6 @@ public class Input {
     }
 
     public int getInt() {
-        System.out.print("Please enter the number that corresponds with the menu above  ");
         int userNum = promptInput.nextInt();
         promptInput.nextLine();
         System.out.println("You entered: " + userNum);
