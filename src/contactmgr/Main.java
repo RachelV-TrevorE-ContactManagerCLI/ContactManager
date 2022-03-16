@@ -6,31 +6,26 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 import static java.nio.file.Files.readAllLines;
 
 public class Main {
+
+
     private static List<String> contactList = new ArrayList<>();
-    private final Input testing = new Input();
+    private static final Input testing = new Input();
     private static final Input menuSelector = new Input();
     private static int queryChoice;
-    static Scanner bufferInput = new Scanner(System.in);
+    private static final Path pathToContacts = Paths.get("contacts.txt");
+
+
 
     public static void main(String[] args) {
-
-
-//        System.out.println();
-//        testing.yesNo("would you like to continue ");
-//        testing.getInt();
-//        testing.getString();
-
-initializeContactListVariable();
-
+        initializeContactListVariable();
     }///END OF MAIN
 
+
     public static void initializeContactListVariable(){
-        Path pathToContacts = Paths.get("contacts.txt");
         try{
             contactList = Files.readAllLines(pathToContacts);
         }catch (IOException e){
@@ -38,6 +33,7 @@ initializeContactListVariable();
         }
         populateBuffer();
     }
+
 
     public static void populateBuffer(){
         System.out.print("1. View contacts.\n" +
@@ -51,6 +47,7 @@ initializeContactListVariable();
         queryContactsByMenuSelection(queryChoice);
 
     }
+
 
     public static void queryContactsByMenuSelection(int queryChoice){
         switch (Main.queryChoice){
@@ -78,6 +75,7 @@ initializeContactListVariable();
         }
     }
 
+
     public static void printContactList(){
         System.out.println("Name   |   Phone Number");
         for (String contact:contactList) {
@@ -85,36 +83,27 @@ initializeContactListVariable();
         }
     }
 
+
     public static void createNewContact(){
-Contact latestContact;
+        Contact contactAddedByBuffer = new Contact();
+
         System.out.print("Please add First Name: ");
-        String newContactfirstName = bufferInput.nextLine();
+        String nCFN= testing.getString();
+        contactAddedByBuffer.setFirstName(nCFN);
 
         System.out.print("Please add Last Name: ");
-        String newContactLastName = bufferInput.nextLine();
+        String nCLN = testing.getString();
+        contactAddedByBuffer.setLastName(nCLN);
 
         System.out.print("Please enter phone: ");
-        String newContactPhone = bufferInput.nextLine();
+        String nCPN = testing.getString();
+        contactAddedByBuffer.setPhoneNumber(nCPN);
 
         System.out.print("Please enter an email: ");
-        String newContactEmail = bufferInput.nextLine();
+        String nCEMl = testing.getString();
+        contactAddedByBuffer.setEmail(nCEMl);
 
-
-        latestContact = new Contact();
-        latestContact.setFirstName(newContactfirstName);
-        latestContact.setLastName(newContactLastName);
-        latestContact.setPhoneNumber(newContactPhone);
-        latestContact.setEmail(newContactEmail);
-        String nCFN= latestContact.getFirstName();
-        String nCLN = latestContact.getLastName();
-        String nCPN = latestContact.getPhoneNumber();
-        String nCEM = latestContact.getLastName();
-
-        Contact newContact = new Contact(nCFN,nCLN,nCPN,nCEM);
-//        System.out.println(newContact.getPhoneNumber());
-//        System.out.println(newContact.);
-
-            String demoContact = nCEM + " " + nCFN + " | " + nCLN + " | " + nCPN + "   |";
+        String demoContact = nCFN + " | " + nCLN + " | " + nCPN + " | " +  nCEMl + "  |";;
         setNewContactToContactList(demoContact);
 
 
@@ -122,17 +111,24 @@ Contact latestContact;
          //// then append list with new object
     }
 
-    public static void setNewContactToContactList(String newContact){
-        //// push new contact created above to list
 
-        contactList.add(contactList.size(), String.valueOf(newContact));
+    public static void setNewContactToContactList(String newContact){
+
+        contactList.add(contactList.size(), newContact);
         System.out.println("new contact added to list");
-//        System.out.println(contactList);
-        printContactList();
+
+       updateContactsFile();
     }
 
+
     public static void queryContactsByName(){
-        System.out.println("query cl by name");
+        System.out.print("Enter a Name to search for: ");
+        String searchQuery = testing.getString();
+        for (String contact: contactList) {
+            if(contact.contains(searchQuery)){
+                System.out.println(contact);
+            }
+        }
         /// allow query by first or last name
         /// loop through both in search function
         /// contactList(i)[0] and contactList(i)[1]
@@ -141,7 +137,24 @@ Contact latestContact;
 
 
     public static void deleteExistingContact(){
-        System.out.println("delete existing contact");
+
+        boolean carryOn = testing.yesNo("YOU ARE DELETING A CONTACT! CONTINUE: (Y/N) ");
+        if(!carryOn){
+            System.out.println("Exiting......");
+        }else{
+            queryContactsByName();
+            String contactToDelete = testing.getString();
+            carryOn = testing.yesNo("WOULD YOU LIKE TO DELETE CONTACT ABOVE?: (Y/N) ");
+
+            if(!carryOn){
+                System.out.println("Exiting......");
+            }else{
+                System.out.println("DELETING CONTACT.....");
+                contactList.remove(contactToDelete);
+            }
+        }
+
+
 
         //// prompt warning before allowing delete
         //// add yesNo confirmation before delete
@@ -150,7 +163,11 @@ Contact latestContact;
     }
 
     public static void updateContactsFile (){
-        /// Write manipulated AL back to contacts file///
+        try {
+            Files.write(pathToContacts,contactList);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 

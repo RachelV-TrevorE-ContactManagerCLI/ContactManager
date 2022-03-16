@@ -21,6 +21,11 @@ public class Contact {
        System.out.println(firstContact.getPhoneNumber());
     }///END OF MAIN
 
+    @Override
+    public String toString() {
+        return super.toString();
+    }
+
     public void sayHello() {
         System.out.println("Hello my name is " + getFirstName());
     }

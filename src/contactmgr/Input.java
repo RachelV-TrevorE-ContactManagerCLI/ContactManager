@@ -27,11 +27,8 @@ public class Input {
     }
 
     public String getString() {
-        System.out.println("please neter a contact");
-        String sentenceInput = promptInput.nextLine();
-        System.out.println("you entered: " + sentenceInput);
-        return sentenceInput;
-
+        //        System.out.println("you entered: " + sentenceInput);
+        return promptInput.nextLine();
     }
 
 
