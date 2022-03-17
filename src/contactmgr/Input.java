@@ -15,8 +15,7 @@ public class Input {
 
     public int getInt() {
         int userNum = promptInput.nextInt();
-        promptInput.nextLine();
-        System.out.println("You entered: " + userNum);
+//        promptInput.nextLine();
         return userNum;
     }
 
@@ -27,7 +26,6 @@ public class Input {
     }
 
     public String getString() {
-        //        System.out.println("you entered: " + sentenceInput);
         return promptInput.nextLine();
     }
 

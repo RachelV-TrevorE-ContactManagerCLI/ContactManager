@@ -23,7 +23,7 @@ public class Contact {
 
     @Override
     public String toString() {
-        return super.toString();
+        return (this.firstName + " | " + this.lastName + " | " + this.phoneNumber + " | " + this.email);
     }
 
     public void sayHello() {
@@ -36,6 +36,10 @@ public class Contact {
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
+    }
+
+    public String getFullName (){
+        return this.firstName + " " + this.lastName;
     }
 
     public String getLastName() {

@@ -4,7 +4,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import static java.nio.file.Files.readAllLines;
@@ -12,7 +15,8 @@ import static java.nio.file.Files.readAllLines;
 public class Main {
 
 
-    private static List<String> contactList = new ArrayList<>();
+//    private static List<String> contactList = new ArrayList<>();
+    private static ArrayList<Contact> contactList;
     private static final Input testing = new Input();
     private static final Input menuSelector = new Input();
     private static int queryChoice;
@@ -22,12 +26,48 @@ public class Main {
 
     public static void main(String[] args) {
         initializeContactListVariable();
+        writeContactsToFile();
     }///END OF MAIN
+
+    private static void writeContactsToFile() {
+
+        ArrayList <String> contactStrings = new ArrayList<>();
+
+        for (Contact contact: contactList) {
+            String contactString = contact.getFirstName() + " | " + contact.getLastName() + " | " + contact.getPhoneNumber() + " | " +
+                    contact.getEmail();
+            contactStrings.add(contactString);
+        }
+        try {
+
+            Files.write(pathToContacts,contactStrings);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 
     public static void initializeContactListVariable(){
+
+        contactList = new ArrayList<>();
+
         try{
-            contactList = Files.readAllLines(pathToContacts);
+
+            List<String> stringOfContacts = Files.readAllLines(pathToContacts);
+
+            for (String contact : stringOfContacts) {
+
+                String [] dataParts = contact.split("\\|");
+                String firstName = dataParts[0].trim();
+                String lastName = dataParts[1].trim();
+                String phoneNumber = dataParts[2].trim();
+                String emailAddy = dataParts[3].trim();
+
+                Contact contactFromFile  = new Contact(firstName,lastName,phoneNumber,emailAddy);
+                contactList.add(contactFromFile);
+            }
+
         }catch (IOException e){
             System.out.println(e.getMessage());
         }
@@ -52,7 +92,7 @@ public class Main {
     public static void queryContactsByMenuSelection(int queryChoice){
         switch (Main.queryChoice){
             case 1:
-                System.out.println("print all contacts");
+                System.out.println("Printing......");
                 printContactList();
                 break;
             case 2:
@@ -77,72 +117,62 @@ public class Main {
 
 
     public static void printContactList(){
-        System.out.println("Name   |   Phone Number");
-        for (String contact:contactList) {
-            System.out.println(contact);
+        for (Contact contact:contactList) {
+            System.out.printf("|| %-12s |  %-12s |  %12s |  %24s ||\n" ,
+                    contact.getFirstName(),contact.getLastName(),contact.getPhoneNumber(),contact.getEmail());
         }
     }
 
 
     public static void createNewContact(){
-        Contact contactAddedByBuffer = new Contact();
+        Contact contactFromBuffer = new Contact();
 
         System.out.print("Please add First Name: ");
         String nCFN= testing.getString();
-        contactAddedByBuffer.setFirstName(nCFN);
+        contactFromBuffer.setFirstName(nCFN);
 
         System.out.print("Please add Last Name: ");
         String nCLN = testing.getString();
-        contactAddedByBuffer.setLastName(nCLN);
+        contactFromBuffer.setLastName(nCLN);
 
         System.out.print("Please enter phone: ");
         String nCPN = testing.getString();
-        contactAddedByBuffer.setPhoneNumber(nCPN);
+        contactFromBuffer.setPhoneNumber(nCPN);
 
         System.out.print("Please enter an email: ");
         String nCEMl = testing.getString();
-        contactAddedByBuffer.setEmail(nCEMl);
-
-        String demoContact = nCFN + " | " + nCLN + " | " + nCPN + " | " +  nCEMl + "  |";;
-        setNewContactToContactList(demoContact);
+        contactFromBuffer.setEmail(nCEMl);
 
 
-         //// call setFirstName, setLastName, set phoneNumber
-         //// then append list with new object
+        setNewContactToContactList(contactFromBuffer);
     }
 
 
-    public static void setNewContactToContactList(String newContact){
+    public static void setNewContactToContactList(Contact newContact){
 
-        contactList.add(contactList.size(), newContact);
-        System.out.println("new contact added to list");
+        contactList.add(newContact);
+        System.out.println("Contact Added.....");
 
-       updateContactsFile();
+        printContactList();
     }
-
 
     public static void queryContactsByName(){
         System.out.print("Enter a Name to search for: ");
         String searchQuery = testing.getString();
-        for (String contact: contactList) {
-            if(contact.contains(searchQuery)){
+        for (Contact contact: contactList) {
+            if(contact.getFullName().matches("(?i).*" + searchQuery + ".*")){
                 System.out.println(contact);
             }
         }
-        /// allow query by first or last name
-        /// loop through both in search function
-        /// contactList(i)[0] and contactList(i)[1]
-
     }
 
 
     public static void deleteExistingContact(){
-
         boolean carryOn = testing.yesNo("YOU ARE DELETING A CONTACT! CONTINUE: (Y/N) ");
         if(!carryOn){
             System.out.println("Exiting......");
         }else{
-            queryContactsByName();
+            System.out.println("Enter Contact to delete");
             String contactToDelete = testing.getString();
             carryOn = testing.yesNo("WOULD YOU LIKE TO DELETE CONTACT ABOVE?: (Y/N) ");
 
@@ -150,25 +180,12 @@ public class Main {
                 System.out.println("Exiting......");
             }else{
                 System.out.println("DELETING CONTACT.....");
-                contactList.remove(contactToDelete);
+                contactList.removeIf(contact -> contact.getFirstName().equalsIgnoreCase(contactToDelete));
             }
         }
-
-
-
-        //// prompt warning before allowing delete
-        //// add yesNo confirmation before delete
-        //// manipulate list to remove selected name
-        //// add yesNo confirmation for delete
     }
 
-    public static void updateContactsFile (){
-        try {
-            Files.write(pathToContacts,contactList);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+
 
 
 
