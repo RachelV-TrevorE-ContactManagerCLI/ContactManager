@@ -4,24 +4,17 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
-import static java.nio.file.Files.readAllLines;
 
 public class Main {
 
-
-//    private static List<String> contactList = new ArrayList<>();
     private static ArrayList<Contact> contactList;
     private static final Input testing = new Input();
     private static final Input menuSelector = new Input();
     private static int queryChoice;
     private static final Path pathToContacts = Paths.get("contacts.txt");
-
 
 
     public static void main(String[] args) {
@@ -100,11 +93,9 @@ public class Main {
                 createNewContact();
                 break;
             case 3:
-                System.out.println("search by name");
                 queryContactsByName();
                 break;
             case 4:
-                System.out.println("delete existing contact");
                 deleteExistingContact();
                 break;
             case 5:
@@ -121,6 +112,7 @@ public class Main {
             System.out.printf("|| %-12s |  %-12s |  %12s |  %24s ||\n" ,
                     contact.getFirstName(),contact.getLastName(),contact.getPhoneNumber(),contact.getEmail());
         }
+        populateBuffer();
     }
 
 
@@ -145,6 +137,7 @@ public class Main {
 
 
         setNewContactToContactList(contactFromBuffer);
+        populateBuffer();
     }
 
 
@@ -154,6 +147,7 @@ public class Main {
         System.out.println("Contact Added.....");
 
         printContactList();
+        populateBuffer();
     }
 
     public static void queryContactsByName(){
@@ -164,6 +158,7 @@ public class Main {
                 System.out.println(contact);
             }
         }
+        populateBuffer();
     }
 
 
@@ -183,6 +178,7 @@ public class Main {
                 contactList.removeIf(contact -> contact.getFirstName().equalsIgnoreCase(contactToDelete));
             }
         }
+        populateBuffer();
     }
 
 

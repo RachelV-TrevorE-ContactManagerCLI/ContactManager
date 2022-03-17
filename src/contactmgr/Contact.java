@@ -7,27 +7,15 @@ public class Contact {
     private String email;
 
     public Contact() {
-
     }
 
-
     public static void main(String[] args) {
-       Contact firstContact =
-               new Contact("trevor","esparza","1234567890","esptrev@gmail.com");
 
-       firstContact.sayHello();
-       System.out.println(firstContact.getPhoneNumber());
-       firstContact.setPhoneNumber("2345678901");
-       System.out.println(firstContact.getPhoneNumber());
     }///END OF MAIN
 
     @Override
     public String toString() {
         return (this.firstName + " | " + this.lastName + " | " + this.phoneNumber + " | " + this.email);
-    }
-
-    public void sayHello() {
-        System.out.println("Hello my name is " + getFirstName());
     }
 
     public String getFirstName() {
@@ -72,4 +60,6 @@ public class Contact {
     public void setEmail(String email) {
         this.email = email;
     }
+
+
 }/// END OF CLASS
