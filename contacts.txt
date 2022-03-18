@@ -1,10 +1,11 @@
 trevor | esparza | 1234567890 | codeupstudent@gmail.com
 rachel | verastique | 2345678901 | codeupstudent@gmail.com
-doc | rob | 3456789012 | codeupstudent@gmail.com
 patrick | quilty | 4567890123 | codeupstudent@gmail.com
 wesley | bernard | 6789012345 | codeupstudent@gmail.com
-ggggggg | jjjjjjj | 2222222222 | codeupstudent@gmail.com
 genaro | esparza | 2222222222 | codeupstudent@gmail.com
 llllll | mmmmmm | 111111111 | codeupstudent@gmail.com
 ssssss | dddddddd | 2222222222 | codeupstudent@gmail.com
 sully | erna | 2222222 | sully@gmail.com
+asdfsdf | asfasd | 1111111111 | dog@dog.com
+jimmu | ddddd | 1111111 | asdfsdf@john.com
+johny | john | 2222222 | asdfasd@gmail.com

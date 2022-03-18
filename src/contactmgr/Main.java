@@ -86,20 +86,24 @@ public class Main {
 
 
     public static void queryContactsByMenuSelection(int queryChoice){
-        switch (Main.queryChoice){
+        switch (queryChoice){
             case 1:
                 System.out.println("Printing......");
                 printContactList();
+                populateBuffer();
                 break;
             case 2:
                 System.out.println("You're adding a new contact");
                 createNewContact();
+                populateBuffer();
                 break;
             case 3:
                 queryContactsByName();
+                populateBuffer();
                 break;
             case 4:
                 deleteExistingContact();
+                populateBuffer();
                 break;
             case 5:
                 System.out.println("Have a great day");
@@ -115,7 +119,6 @@ public class Main {
             System.out.printf("|| %-12s |  %-12s |  %12s |  %24s ||\n" ,
                     contact.getFirstName(),contact.getLastName(),contact.getPhoneNumber(),contact.getEmail());
         }
-        populateBuffer();
     }
 
 
@@ -143,8 +146,9 @@ public class Main {
 
 
         setNewContactToContactList(contactFromBuffer);
-        populateBuffer();
+
     }
+
 
     public static String verifyFirstName (String name){
         if(name.length() == 0){
@@ -206,7 +210,6 @@ public class Main {
         System.out.println("Contact Added.....");
 
         printContactList();
-        populateBuffer();
     }
 
     public static void queryContactsByName(){
@@ -217,7 +220,7 @@ public class Main {
                 System.out.println(contact);
             }
         }
-        populateBuffer();
+
     }
 
 
@@ -239,7 +242,6 @@ public class Main {
                 contactList.removeIf(contact -> contact.getPhoneNumber().equalsIgnoreCase(contactToDelete));
             }
         }
-        populateBuffer();
     }
 
 
