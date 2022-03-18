@@ -6,6 +6,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 
 public class Main {
@@ -15,7 +16,9 @@ public class Main {
     private static final Input menuSelector = new Input();
     private static int queryChoice;
     private static final Path pathToContacts = Paths.get("contacts.txt");
-
+    private static String nCFN;
+    private static String nCPN;
+    private static String nCEMl;
 
     public static void main(String[] args) {
         initializeContactListVariable();
@@ -120,25 +123,81 @@ public class Main {
         Contact contactFromBuffer = new Contact();
 
         System.out.print("Please add First Name: ");
-        String nCFN= testing.getString();
+        nCFN= testing.getString();
+        verifyFirstName(nCFN);
         contactFromBuffer.setFirstName(nCFN);
 
         System.out.print("Please add Last Name: ");
         String nCLN = testing.getString();
         contactFromBuffer.setLastName(nCLN);
 
-        System.out.print("Please enter phone: ");
-        String nCPN = testing.getString();
+        System.out.print("Please enter a 7 or 10 digit phone number: ");
+        nCPN = testing.getString();
+        verifyPhoneNumber(nCPN);
         contactFromBuffer.setPhoneNumber(nCPN);
 
         System.out.print("Please enter an email: ");
-        String nCEMl = testing.getString();
+        nCEMl = testing.getString();
+        verifyEmail(nCEMl);
         contactFromBuffer.setEmail(nCEMl);
 
 
         setNewContactToContactList(contactFromBuffer);
         populateBuffer();
     }
+
+    public static String verifyFirstName (String name){
+        if(name.length() == 0){
+            System.out.print("Please add First Name: ");
+            nCFN = testing.getString();
+            verifyFirstName(nCFN);
+        }
+        return nCFN;
+    }
+
+    public static String verifyPhoneNumber (String phone) {
+        if(phone.length() != 7 && phone.length() != 10){
+            System.out.print("Please enter a 7 or 10 digit phone number: ");
+            nCPN = testing.getString();
+            verifyPhoneNumber(nCPN);
+        }
+        if(!(verifyPhoneIsNumeric(nCPN))){
+            System.out.print("Please enter a 7 or 10 digit phone number: ");
+            nCPN = testing.getString();
+            verifyPhoneNumber(nCPN);
+        }
+        return nCPN;
+    }
+
+        public static boolean verifyPhoneIsNumeric (String strNum) {
+            if (strNum == null) {
+                return false;
+            }
+            try {
+               int d = Integer.parseInt(strNum);
+            } catch (NumberFormatException nfe) {
+                return false;
+            }
+            return true;
+        }
+
+        public static String verifyEmail(String email){
+           if(!isEmailValid(email)){
+               System.out.print("Please enter valid email address: ");
+               nCEMl = testing.getString();
+               verifyEmail(nCEMl);
+           }
+            return nCEMl;
+        }
+
+        public static boolean isEmailValid(String email) {
+            final Pattern EMAIL_REGEX = Pattern.compile("[a-z0-9!#$%&'*+/=?^_`{|}~-]+" +
+                    "(?:.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?.)+" +
+                    "[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", Pattern.CASE_INSENSITIVE);
+            return EMAIL_REGEX.matcher(email).matches();
+        }
+
+
 
 
     public static void setNewContactToContactList(Contact newContact){
@@ -176,6 +235,8 @@ public class Main {
             }else{
                 System.out.println("DELETING CONTACT.....");
                 contactList.removeIf(contact -> contact.getFirstName().equalsIgnoreCase(contactToDelete));
+                contactList.removeIf(contact -> contact.getLastName().equalsIgnoreCase(contactToDelete));
+                contactList.removeIf(contact -> contact.getPhoneNumber().equalsIgnoreCase(contactToDelete));
             }
         }
         populateBuffer();

@@ -6,6 +6,7 @@ public class Contact {
     private String phoneNumber;
     private String email;
 
+
     public Contact() {
     }
 
