@@ -7,5 +7,5 @@ llllll | mmmmmm | 111111111 | codeupstudent@gmail.com
 ssssss | dddddddd | 2222222222 | codeupstudent@gmail.com
 sully | erna | 2222222 | sully@gmail.com
 asdfsdf | asfasd | 1111111111 | dog@dog.com
-jimmu | ddddd | 1111111 | asdfsdf@john.com
 johny | john | 2222222 | asdfasd@gmail.com
+terasdfsf | asdfadf | 1234567 | dog@dog.com
